@@ -1,9 +1,24 @@
 .wrapper {
     display: grid;
+    grid-gap: 10px;
     grid-template-columns: 2fr 1fr;
 }
 
 .available {
     color: #fff;
     background-color: green;
+}
+
+.grid-list {
+    margin-bottom: 10px;
+}
+
+.card-bg {
+    background-color: #E9EDC9;
+}
+
+.sub-header {
+    text-align: center;
+    color: #D4A373;
+    margin: 10px;
 }

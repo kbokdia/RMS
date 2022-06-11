@@ -1,11 +1,23 @@
-<mat-card>
-    <mat-card-title [ngClass]="true ? 'available' : 'occupied'">Table #1</mat-card-title>
-    <mat-card-subtitle>Capacity: </mat-card-subtitle>
-    <mat-form-field appearance="fill">
-        <mat-label>Table Status</mat-label>
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-            <mat-button-toggle *ngFor="let item of TableStatus | keyvalue | slice:3:5" value="bold">{{item.value}}
-            </mat-button-toggle>
-        </mat-button-toggle-group>
-    </mat-form-field>
-</mat-card>
+<div class="sub-header">
+    <h3> TABLES </h3>
+</div>
+<ng-container *ngIf="formArray?.controls">
+    <mat-card *ngFor="let formGroup of formArray?.controls" class="card-bg grid-list" [formGroup]="formGroup">
+        <div class="wrapper">
+            <div>
+                <mat-card-title>{{formGroup.value.name}}</mat-card-title>
+                <mat-card-subtitle>Capacity: {{formGroup.value.capacity}}</mat-card-subtitle>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="status">
+                        <mat-option *ngFor="let status of TableStatusValues" [value]="status">
+                            {{TableStatus[status]}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card>
+</ng-container>
