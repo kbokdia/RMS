@@ -5,15 +5,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-// import { MatGridList } from '@angular/material/gir';
-
+import { MatExpansionModule} from '@angular/material/expansion';
 
 const modules = [
     MatButtonModule,
     MatCardModule,
     MatSelectModule,
     MatGridListModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatExpansionModule,
 ];
 
 @NgModule({
