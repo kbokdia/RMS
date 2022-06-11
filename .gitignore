@@ -3,3 +3,4 @@ RMS/obj
 Client/.vscode
 RMS/bin/Debug
 RMS/bin
+*.user
