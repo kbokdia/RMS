@@ -1,7 +1,6 @@
-﻿using RMS.Exceptions;
-using System.Net;
+﻿using System.Net;
 
-namespace CmacApi.Exceptions
+namespace RMS.Exceptions
 {
    public class UnauthorizedException : HttpResponseException
    {

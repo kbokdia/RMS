@@ -1,5 +1,4 @@
-﻿using CmacApi.Exceptions;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using RMS.Exceptions;
 using RMS.Handlers.TableHandler;
@@ -10,7 +9,7 @@ namespace RMS.Controllers
 {
    [Route("api/[controller]")]
    [ApiController]
-   public class TableController: ControllerBase
+   public class TableController : ControllerBase
    {
       private readonly IMediator mediator;
 
@@ -19,31 +18,88 @@ namespace RMS.Controllers
          this.mediator = mediator;
       }
 
+      [HttpGet]
+      public async Task<IActionResult> GetAll([FromQuery] GetAll.GetAllTableRequest   requestParams)
+      {
+         try
+         {;
+            var result = await mediator.Send(requestParams);
+            return Ok(result);
+         }
+         catch (BadRequestException bre) { return BadRequest(new { Error = bre.Message }); }
+         catch (NotFoundException nfe) { return NotFound(new { Error = nfe.Message }); }
+         catch (UnauthorizedException ue) { return Unauthorized(new { Error = ue.Message }); }
+      }
+
+      [HttpGet("{id}")]
+      public async Task<IActionResult> Get(int id)
+      {
+         try
+         {
+            var request = new Get.GetTableRequest { Id = id };
+            var result = await mediator.Send(request);
+            return Ok(result);
+         }
+         catch (BadRequestException bre) { return BadRequest(new { Error = bre.Message }); }
+         catch (NotFoundException nfe) { return NotFound(new { Error = nfe.Message }); }
+         catch (UnauthorizedException ue) { return Unauthorized(new { Error = ue.Message }); }
+      }
+
       [HttpPost]
       public async Task<IActionResult> Create([FromBody] CreateTableModel requestBody)
       {
          try
          {
-            var request = new Create.CreateTableRequest
-            {
-               Model = requestBody,
-            };
+            var request = new Create.CreateTableRequest { Model = requestBody, };
             var result = await mediator.Send(request);
-
             return Ok(result);
          }
-         catch (BadRequestException bre)
+         catch (BadRequestException bre) { return BadRequest(new { Error = bre.Message }); }
+         catch (NotFoundException nfe) { return NotFound(new { Error = nfe.Message }); }
+         catch (UnauthorizedException ue) { return Unauthorized(new { Error = ue.Message }); }
+      }
+
+      [HttpPut("{id}")]
+      public async Task<IActionResult> Update(int id, [FromBody] TableModel requestBody)
+      {
+         try
          {
-            return BadRequest(new { Error = bre.Message });
+            var request = new Update.UpdateTableRequest { Id = id, Model = requestBody, };
+            var result = await mediator.Send(request);
+            return Ok(result);
          }
-         catch (NotFoundException nfe)
+         catch (BadRequestException bre) { return BadRequest(new { Error = bre.Message }); }
+         catch (NotFoundException nfe) { return NotFound(new { Error = nfe.Message }); }
+         catch (UnauthorizedException ue) { return Unauthorized(new { Error = ue.Message }); }
+      }
+
+
+      [HttpPut("{id}/{isAvialable}")]
+      public async Task<IActionResult> UpdateStatus(int id, TableStatus isAvialable)
+      {
+         try
          {
-            return NotFound(new { Error = nfe.Message });
+            var request = new UpdateAvialablity.UpdateTableRequest { Id = id, IsAvialable = isAvialable };
+            var result = await mediator.Send(request);
+            return Ok(result);
          }
-         catch (UnauthorizedException ue)
+         catch (BadRequestException bre) { return BadRequest(new { Error = bre.Message }); }
+         catch (NotFoundException nfe) { return NotFound(new { Error = nfe.Message }); }
+         catch (UnauthorizedException ue) { return Unauthorized(new { Error = ue.Message }); }
+      }
+
+      [HttpDelete("{id}")]
+      public async Task<IActionResult> UpdateStatus(int id)
+      {
+         try
          {
-            return Unauthorized(new { Error = ue.Message });
+            var request = new Delete.DeleteTableRequest { Id = id };
+            var result = await mediator.Send(request);
+            return Ok(result);
          }
+         catch (BadRequestException bre) { return BadRequest(new { Error = bre.Message }); }
+         catch (NotFoundException nfe) { return NotFound(new { Error = nfe.Message }); }
+         catch (UnauthorizedException ue) { return Unauthorized(new { Error = ue.Message }); }
       }
 
    }
