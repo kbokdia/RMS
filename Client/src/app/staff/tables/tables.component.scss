@@ -1,0 +1,9 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.available {
+    color: #fff;
+    background-color: green;
+}
