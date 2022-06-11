@@ -1,7 +1,10 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RMS.Data;
+using RMS.Handlers.UserHandler;
 using RMS.Handlers.Users;
 using RMS.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RMS.Services
@@ -9,6 +12,8 @@ namespace RMS.Services
    public interface IUserService
    {
       Task<UserModel> GetById(int id);
+      Task<int> GetOrCreate(string mobile);
+      Task<int> Create(string mobile);
    }
 
    public class UserService : IUserService
@@ -31,6 +36,38 @@ namespace RMS.Services
          var result = await mediator.Send(request);
          return result.Data;
 
+      }
+
+      public async Task<int> GetOrCreate(string mobile)
+      {
+         var user = await ctx.Users
+           .AsNoTracking()
+           .Where(u => u.Mobile == mobile)
+           .SingleOrDefaultAsync();
+
+         if (user == null)
+            return await Create(mobile);
+
+         return user.Id;
+      }
+
+      public async Task<int> Create(string mobile)
+      {
+         var userModel = new CreateUserModel
+         {
+            Mobile = mobile,
+            Password = "password",
+            Type = UserType.Customer,
+            Status = Status.Active,
+         };
+
+         var request = new Create.CreateUserRequest
+         {
+            Model = userModel
+         };
+
+         var result = await mediator.Send(request);
+         return result.Data.UserId;
       }
    }
 }

@@ -25,7 +25,12 @@ namespace RMS.Handlers.UserHandler
       public class Response
       {
          public string Message { get; set; }
-         public object Data { get; set; }
+         public ResponseData Data { get; set; }
+      }
+
+      public class ResponseData
+      {
+         public int UserId { get; set; }
       }
 
       public async Task<Response> Handle(CreateUserRequest request, CancellationToken cancellationToken)
@@ -42,7 +47,7 @@ namespace RMS.Handlers.UserHandler
          return new Response
          {
             Message = "User saved successfully.",
-            Data = new
+            Data = new ResponseData
             {
                UserId = entity.Id,
             }

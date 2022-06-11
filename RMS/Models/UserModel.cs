@@ -41,8 +41,9 @@ namespace RMS.Models
          entity.Name = model.Name;
          entity.Email = model.Email;
          entity.Mobile = model.Mobile;
+         entity.Password = model.Password;
          entity.Type = (byte)model.Type;
-         entity.Status = (byte)entity.Status;
+         entity.Status = (byte)model.Status;
          return entity;
       }
    }
