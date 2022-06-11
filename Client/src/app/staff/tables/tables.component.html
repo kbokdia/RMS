@@ -1,0 +1,11 @@
+<mat-card>
+    <mat-card-title [ngClass]="true ? 'available' : 'occupied'">Table #1</mat-card-title>
+    <mat-card-subtitle>Capacity: </mat-card-subtitle>
+    <mat-form-field appearance="fill">
+        <mat-label>Table Status</mat-label>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+            <mat-button-toggle *ngFor="let item of TableStatus | keyvalue | slice:3:5" value="bold">{{item.value}}
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </mat-form-field>
+</mat-card>
