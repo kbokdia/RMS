@@ -12,7 +12,7 @@ const modules = [
     MatCardModule,
     MatSelectModule,
     MatGridListModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
     MatExpansionModule,
 ];
 
