@@ -1,0 +1,1 @@
+﻿dotnet ef dbcontext scaffold Name=ConnectionStrings:Mysql MySql.EntityFrameworkCore --data-annotations --context RMSContext --context-dir Data --output-dir Entities/Scaffold --force
