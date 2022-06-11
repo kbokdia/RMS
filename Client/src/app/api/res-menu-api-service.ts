@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 export class ResMenuApiService {
     readonly method = 'menu';
     constructor(private httpClient: HttpClient) { }
+    
     getAllByCategories() {
         return this.httpClient.get<ICategory[]>(this.method);
     }   
