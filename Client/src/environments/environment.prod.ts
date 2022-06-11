@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  baseApiUrl: 'https://rms-appservice.azurewebsites.net/api',
+  baseApiUrl: 'api',
   security: {
-    allowedOrigins: 'https://rms-appservice.azurewebsites.net/api/Table'
+    allowedOrigins: 'api'
   }
 };
