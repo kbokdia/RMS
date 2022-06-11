@@ -1,51 +1,68 @@
 .card-bg {
-    background-color: #E9EDC9;
+  background-color: #e9edc9;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .expansion-title {
-    font-weight: 200;
-    letter-spacing: 2px;
+  font-weight: 200;
+  letter-spacing: 2px;
 }
 
 .sub-header {
-    text-align: center;
-    color: #D4A373;
-    margin: 10px;
+  text-align: center;
+  color: #d4a373;
+  margin: 10px;
 }
 
 .item-title {
-    letter-spacing: 1px;
+  letter-spacing: 1px;
 }
 
 .text-muted {
-    color: gray;
-    ;
+  color: gray;
 }
 
 .item-price {
-    font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 
 .item-description {
-    color: #7d7c83;
-    font-size: 0.7rem;
+  color: #7d7c83;
+  font-size: 0.7rem;
 }
 
 .item-button {
-    height: 20px;
-    width: 20px;
-    border: 1px solid #D4A373;
-    border-radius: 5px;
+  height: 20px;
+  width: 20px;
+  border: 1px solid #d4a373;
+  border-radius: 5px;
 }
 
 .item-quantity {
-    padding: 5px;
+  padding: 5px;
+}
+
+.price-snackbar {  
+  font-weight: bold;
+  background-color: #d4a373;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  position: fixed;
+  bottom: 0.5rem;
+  width: calc(100% - 1.5rem);
+  transition: all 0.5s;
+  transform: translateY(-1rem);
+  color: antiquewhite;
+  text-shadow: 0px 0px 5px black;
+
+  &.inactive {
+    transform: translateY(5rem);
+  }
 }
