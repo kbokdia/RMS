@@ -3,16 +3,26 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class ResTableApiService {
-    readonly method = 'tables';
+    readonly method = 'table';
     constructor(private httpClient: HttpClient) { }
 
     getAll() {
-        return this.httpClient.get<ITable[]>(this.method);
+        return this.httpClient.get<IResponse<ITable[]>>(this.method);
     }
 
     getById(id: number) {
         return this.httpClient.get<ITable>(`${this.method}/${id}`);
     }
+
+    updateAvailability(value: ITable) {
+        return this.httpClient.put(`${this.method}/${value.id}/${value.status}`, value)
+    }
+}
+
+export interface IResponse<T> {
+    count?: number;
+    message?: string;
+    data: T
 }
 
 export interface ITable {

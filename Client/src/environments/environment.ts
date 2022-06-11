@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  baseApiUrl: 'https://rms-appservice.azurewebsites.net/api',
+  security: {
+    allowedOrigins: 'https://rms-appservice.azurewebsites.net/api/Table'
+  }
+
 };
 
 /*

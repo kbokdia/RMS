@@ -5,6 +5,7 @@ import { StaffRoutingModule } from './staff-routing.module';
 import { AppMaterialModule } from '../app-material.module';
 import { OrdersComponent } from './orders/orders.component';
 import { MenuComponent } from './menu/menu.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -17,7 +18,8 @@ import { MenuComponent } from './menu/menu.component';
   imports: [
     CommonModule,
     StaffRoutingModule,
-    AppMaterialModule
+    AppMaterialModule,
+    ReactiveFormsModule
   ]
 })
 export class StaffModule { }
