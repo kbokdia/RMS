@@ -6,6 +6,7 @@ import { AppMaterialModule } from '../app-material.module';
 import { OrdersComponent } from './orders/orders.component';
 import { MenuComponent } from './menu/menu.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -13,7 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     TablesComponent,
     OrdersComponent,
-    MenuComponent
+    MenuComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
