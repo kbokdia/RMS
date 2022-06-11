@@ -1,12 +1,15 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using RMS.Authorization;
 using RMS.Data;
 using RMS.Helper;
+using RMS.Services;
 using System.Reflection;
 
 namespace RMS
@@ -30,6 +33,14 @@ namespace RMS
          services.AddSwaggerGen(c =>
          {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "RMS", Version = "v1" });
+            c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+            {
+               Type = SecuritySchemeType.Http,
+               BearerFormat = "JWT",
+               In = ParameterLocation.Header,
+               Scheme = "bearer"
+            });
+            c.OperationFilter<AuthenticationRequirementsOperationFilter>();
          });
 
          services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
@@ -41,6 +52,10 @@ namespace RMS
             .SetIsOriginAllowed(origin => true)
             .AllowCredentials())
          );
+
+         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+         services.AddScoped<IJwtUtils, JwtUtils>();
+         services.AddScoped<IUserService, UserService>();
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

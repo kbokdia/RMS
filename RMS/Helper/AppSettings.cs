@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RMS.Helper
+﻿namespace RMS.Helper
 {
    public class AppSettings
    {
       public int PageSize { get; set; }
+      public string Secret { get; set; }
 
    }
 }
