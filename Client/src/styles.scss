@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+$backgroundColor : #FEFAE0;
+html, body { height: 100%; background-color:$backgroundColor; }
+body { margin: 0;padding: 0 10px; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.mat-grid-tile .mat-figure {
+    justify-content: flex-start !important ;
+    align-items: flex-start !important;
+ }
