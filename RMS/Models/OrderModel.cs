@@ -66,6 +66,25 @@ namespace RMS.Models
       }
    }
 
+   public class GetOrderModel: OrderModel
+   {
+      public UserModel User { get; set; }
+      public TableModel Table { get; set; }
+
+      public static GetOrderModel ToModel(Order entity)
+      {
+         var model = CreateOrderModel.ToModel<GetOrderModel>(entity);
+
+         if (entity.User != null)
+            model.User = UserModel.ToModel<UserModel>(entity.User);
+
+         if(entity.Table != null)
+            model.Table = TableModel.ToModel<TableModel>(entity.Table);
+
+         return model;
+      }
+   }
+
    public class CreateOrderItemModel
    {
       public int MenuId { get; set; }
@@ -85,6 +104,30 @@ namespace RMS.Models
          entity.MenuId = model.MenuId;
          entity.Quantity = model.Quantity;
          return entity;
+      }
+   }
+
+   public class OrderItemModel: CreateOrderItemModel
+   {
+      public int Id { get; set; }
+      public new static T ToModel<T>(OrderItem entity) where T : OrderItemModel, new()
+      {
+         var model = CreateOrderItemModel.ToModel<T>(entity);
+         model.Id = entity.Id;
+         return model;
+      }
+   }
+
+   public class GetOrderItemModel: OrderItemModel
+   {
+      public MenuModel Menu { get; set; }
+
+      public new static T ToModel<T>(OrderItem entity) where T : GetOrderItemModel, new()
+      {
+         var model = OrderItemModel.ToModel<T>(entity);
+         if(entity.Menu != null)
+            model.Menu = MenuModel.ToModel<MenuModel>(entity.Menu);
+         return model;
       }
    }
 }

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using RMS.Authorization;
 using RMS.Exceptions;
 using RMS.Handlers.OrderHandler;
 using RMS.Models;
@@ -17,6 +18,22 @@ namespace RMS.Controllers
       {
          this.mediator = mediator;
       }
+
+      //[Authorize(UserType.Staff, UserType.Admin)]
+      [HttpGet]
+      public async Task<IActionResult> GetAllAsync([FromQuery] GetAll.GetAllOrderRequest request)
+      {
+         try
+         {
+            var result = await mediator.Send(request);
+            return Ok(result);
+         }
+         catch (BadRequestException bre)
+         {
+            return BadRequest(new { Error = bre.Message });
+         }
+      }
+
 
       [HttpPost]
       public async Task<IActionResult> CreateOrder([FromBody] CreateOrderModel requestBody)
