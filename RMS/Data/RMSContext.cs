@@ -18,14 +18,11 @@ namespace RMS.Data
         {
         }
 
-        public virtual DbSet<Address> Addresses { get; set; }
-        public virtual DbSet<Contact> Contacts { get; set; }
-        public virtual DbSet<Inventory> Inventories { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Production> Productions { get; set; }
-        public virtual DbSet<ProductionMaterial> ProductionMaterials { get; set; }
-        public virtual DbSet<RelatedProduct> RelatedProducts { get; set; }
-        public virtual DbSet<Transport> Transports { get; set; }
+        public virtual DbSet<Menu> Menus { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderItem> OrderItems { get; set; }
+        public virtual DbSet<RmsTable> RmsTables { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,92 +34,34 @@ namespace RMS.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Contact>(entity =>
+            modelBuilder.Entity<Order>(entity =>
             {
-                entity.Property(e => e.IsActive).HasDefaultValueSql("'1'");
-
-                entity.Property(e => e.Type).HasDefaultValueSql("'1'");
-
-                entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Contacts)
-                    .HasForeignKey(d => d.AddressId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("fk_address_id_address");
-            });
-
-            modelBuilder.Entity<Inventory>(entity =>
-            {
-                entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                entity.Property(e => e.LastModified).HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Inventories)
-                    .HasForeignKey(d => d.ProductId)
+                entity.HasOne(d => d.Table)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.TableId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_inventories_products");
+                    .HasConstraintName("fk_table_id_rms_table");
 
-                entity.HasOne(d => d.Vendor)
-                    .WithMany(p => p.Inventories)
-                    .HasForeignKey(d => d.VendorId)
-                    .HasConstraintName("fk_inventories_contacts");
-            });
-
-            modelBuilder.Entity<Product>(entity =>
-            {
-                entity.Property(e => e.IsActive).HasDefaultValueSql("'1'");
-
-                entity.Property(e => e.MetricType).HasDefaultValueSql("'1'");
-
-                entity.Property(e => e.Type).HasDefaultValueSql("'1'");
-            });
-
-            modelBuilder.Entity<Production>(entity =>
-            {
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Productions)
-                    .HasForeignKey(d => d.ProductId)
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("product_id");
+                    .HasConstraintName("fk_user_id_user");
             });
 
-            modelBuilder.Entity<ProductionMaterial>(entity =>
+            modelBuilder.Entity<OrderItem>(entity =>
             {
-                entity.HasOne(d => d.Inventory)
-                    .WithMany(p => p.ProductionMaterials)
-                    .HasForeignKey(d => d.InventoryId)
+                entity.HasOne(d => d.Menu)
+                    .WithMany(p => p.OrderItems)
+                    .HasForeignKey(d => d.MenuId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_production_materials_inventory_id");
+                    .HasConstraintName("fk_menu_id_menu");
 
-                entity.HasOne(d => d.Production)
-                    .WithMany(p => p.ProductionMaterials)
-                    .HasForeignKey(d => d.ProductionId)
-                    .HasConstraintName("fk_production_materials_production_id");
-            });
-
-            modelBuilder.Entity<RelatedProduct>(entity =>
-            {
-                entity.HasKey(e => new { e.ProductId, e.RelatedProductId })
-                    .HasName("PRIMARY");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.RelatedProductProducts)
-                    .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("fk_related_products_product_id");
-
-                entity.HasOne(d => d.RelatedProductNavigation)
-                    .WithMany(p => p.RelatedProductRelatedProductNavigations)
-                    .HasForeignKey(d => d.RelatedProductId)
-                    .HasConstraintName("fk_related_products_related_product_id");
-            });
-
-            modelBuilder.Entity<Transport>(entity =>
-            {
-                entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Transports)
-                    .HasForeignKey(d => d.AddressId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("fk_transport_address");
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderItems)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_order_id_order");
             });
 
             OnModelCreatingPartial(modelBuilder);
