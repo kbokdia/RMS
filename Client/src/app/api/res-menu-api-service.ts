@@ -19,12 +19,12 @@ export interface IMenuItem {
     id: number;
     name: string;
     status: MenuItemStatusEnum;
-    categoryType?: string;
-    price?: number;
-    description?: string;
-    imageUrl?: string;
-    tags?: string[];
-    isVeg?: boolean
+    categoryType: string;
+    price: number;
+    description: string;
+    imageUrl: string;
+    // tags: string[];
+    isVeg: boolean
 }
 
 export interface ICategory {
