@@ -74,12 +74,12 @@ namespace RMS.Controllers
       }
 
 
-      [HttpPut("{id}/{isAvialable}")]
-      public async Task<IActionResult> UpdateStatus(int id, TableStatus isAvialable)
+      [HttpPut("{id}/{status}")]
+      public async Task<IActionResult> UpdateStatus(int id, TableStatus status)
       {
          try
          {
-            var request = new UpdateAvialablity.UpdateTableRequest { Id = id, IsAvialable = isAvialable };
+            var request = new UpdateStatus.UpdateTableRequest { Id = id, Status = status };
             var result = await mediator.Send(request);
             return Ok(result);
          }

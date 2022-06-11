@@ -45,6 +45,19 @@ namespace RMS.Controllers
          catch (UnauthorizedException ue) { return Unauthorized(new { Error = ue.Message }); }
       }
 
+      [HttpPut("{id}/{status}")]
+      public async Task<IActionResult> UpdateStatus([FromRoute] int id, Status status)
+      {
+         try
+         {
+            var request = new UpdateStatus.UpdateMenuRequest { Id = id, Status = status };
+            var result = await mediator.Send(request);
+            return Ok(result);
+         }
+         catch (BadRequestException bre) { return BadRequest(new { Error = bre.Message }); }
+         catch (NotFoundException nfe) { return NotFound(new { Error = nfe.Message }); }
+         catch (UnauthorizedException ue) { return Unauthorized(new { Error = ue.Message }); }
+      }
 
    }
 }
