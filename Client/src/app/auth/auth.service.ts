@@ -86,7 +86,7 @@ export class AuthService {
         this.username = "";
         this.userType = AuthTypeEnum.undefined;
         this.clearAuthData();
-        this.router.navigate(['/']);
+        this.router.navigate(['/auth/login']);
     }
 
     private clearAuthData() {
