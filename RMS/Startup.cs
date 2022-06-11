@@ -23,8 +23,9 @@ namespace RMS
       // This method gets called by the runtime. Use this method to add services to the container.
       public void ConfigureServices(IServiceCollection services)
       {
+         var dbString = Configuration["ConnectionStrings:Mysql"];
          services.AddDbContext<RMSContext>(opt =>
-            opt.UseMySQL(Configuration.GetConnectionString("MysqlConnection")));
+            opt.UseMySQL(dbString));
          services.AddControllers();
          services.AddSwaggerGen(c =>
          {
@@ -33,6 +34,13 @@ namespace RMS
 
          services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
          services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+         services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            builder
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(origin => true)
+            .AllowCredentials())
+         );
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,9 +53,23 @@ namespace RMS
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RMS v1"));
          //}
 
-         app.UseHttpsRedirection();
+         // Redirect 404 to frontend
+         // https://www.infoworld.com/article/3545304/how-to-handle-404-errors-in-aspnet-core-mvc.html
+         app.Use(async (context, next) =>
+         {
+            await next();
+            if (context.Response.StatusCode == 404)
+            {
+               context.Request.Path = "/";
+               await next();
+            }
+         });
 
+         app.UseHttpsRedirection();
+         app.UseCors("CorsPolicy");
          app.UseRouting();
+         app.UseDefaultFiles();
+         app.UseStaticFiles();
 
          app.UseAuthorization();
 
