@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RMS.Handlers.Users
+namespace RMS.Handlers.UserHandler
 {
    public class Get : IRequestHandler<Get.GetUserRequest, Get.Response>
    {

@@ -4,3 +4,4 @@ Client/.vscode
 RMS/bin/Debug
 RMS/bin
 *.user
+node_modules

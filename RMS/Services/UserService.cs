@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using RMS.Data;
 using RMS.Handlers.UserHandler;
-using RMS.Handlers.Users;
 using RMS.Models;
 using System.Linq;
 using System.Threading.Tasks;

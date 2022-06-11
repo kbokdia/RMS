@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RMS.Exceptions;
 using RMS.Handlers.UserHandler;
@@ -16,6 +17,25 @@ namespace RMS.Controllers
       public UserController(IMediator mediator)
       {
          this.mediator = mediator;
+      }
+
+      [AllowAnonymous]
+      [HttpPost("authenticate")]
+      public async Task<IActionResult> Authenticate([FromBody] Authenticate.AuthenticateUserRequest request)
+      {
+         try
+         {
+            var result = await mediator.Send(request);
+            return Ok(result);
+         }
+         catch (NotFoundException nfe)
+         {
+            return NotFound(new { Error = nfe.Message });
+         }
+         catch (BadRequestException bre)
+         {
+            return BadRequest(new { Error = bre.Message });
+         }
       }
 
       [HttpPost]
