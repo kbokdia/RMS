@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { debounce, debounceTime, flatMap, lastValueFrom, mergeMap, map, distinctUntilChanged } from 'rxjs';
+import { ICategory, IMenuItem, ResMenuApiService } from 'src/app/api/res-menu-api-service';
 
 @Component({
   selector: 'app-menu',
@@ -7,27 +10,86 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
   panelOpenState = false;
-  quantity:number = 1;
-  @Input() alwaysExpanded:boolean = false;
-  @Input() title:string = 'MENU';
-  constructor() { 
+  quantity: number = 1;
+  @Input() alwaysExpanded: boolean = false;
+  @Input() title: string = 'MENU';
+
+  public selectedItems: number = 0;
+  public selectedItemTotalCost: number = 0;
+  public formArray: FormArray<FormGroup<CategoryForms>>;
+  public showPriceSnackBar: boolean = true;
+
+  constructor(private menuSvc: ResMenuApiService, private fb: FormBuilder) {
   }
 
-  addQuantity(){
-    this.quantity++;
-    console.log(this.quantity);
+  async ngOnInit() {
+    const apiResponse = await lastValueFrom(this.menuSvc.getAllByCategories());
+    this.formArray = this.fb.array(apiResponse?.data?.map(x => MenuComponent.CreateFormForCategories(this.fb, x)));
+    this.formArray.valueChanges
+      .pipe(
+        debounceTime(500),
+        map(x => x.flatMap(y => y.items)),
+        distinctUntilChanged(),
+      )
+      .subscribe(x => {
+        const selectedItems = x.filter(x => (x?.quantity ?? 0) > 0);
+        console.log(x)
+        this.selectedItems = selectedItems.length;
+        this.selectedItemTotalCost = selectedItems.reduce((p, c) => p + ((c?.price ?? 0) * (c?.quantity ?? 0)), 0);
+      });
   }
 
-  removeQuantity(){
-    if(this.quantity > 0){
-      this.quantity--;
-      console.log(this.quantity);
-    }
-    
+  getItemGroup(fg: FormGroup) {
+    console.log(fg.value)
+    return fg.get('items');
+  }
+  patchQuantity(fg: FormGroup<MenuForms>, count: number) {
+    const currentQty = fg.value.quantity ?? 0;
+    const qty = Math.max(0, currentQty + count);
+    fg.patchValue({ quantity: qty })
   }
 
-
-  ngOnInit(): void {
+  static CreateFormForCategories(fb: FormBuilder, categoryData: ICategory) {
+    const formArray: FormArray<FormGroup<MenuForms>> = fb.nonNullable.array(categoryData?.items?.map(x => MenuComponent.CreateFormForMenuItem(fb, x)));
+    console.log("array", formArray)
+    const formGroup: FormGroup<CategoryForms> = fb.nonNullable.group({
+      category: categoryData.category,
+      items: formArray,
+    });
+    return formGroup;
+  }
+  static CreateFormForMenuItem(fb: FormBuilder, menuItemData: IMenuItem): FormGroup<MenuForms> {
+    const formGroup: FormGroup<MenuForms> = fb.nonNullable.group({
+      id: menuItemData.id,
+      name: menuItemData.name,
+      categoryType: menuItemData.categoryType,
+      price: menuItemData.price,
+      description: menuItemData.description,
+      imageUrl: menuItemData.imageUrl,
+      isVeg: menuItemData.isVeg,
+      status: menuItemData.status,
+      quantity: 0,
+      // tags: menuItemData.tags,
+    })
+    return formGroup;
   }
 
+}
+
+
+export interface CategoryForms {
+  category: FormControl<string>;
+  items: FormArray<FormGroup<MenuForms>>;
+}
+export interface MenuForms {
+  id: FormControl<number>;
+  name: FormControl<string>;
+  categoryType: FormControl<string>;
+  price: FormControl<number>;
+  description: FormControl<string>;
+  imageUrl: FormControl<string>;
+  isVeg: FormControl<boolean>;
+  status: FormControl<boolean>;
+  quantity: FormControl<number>;
+  // tags: FormControl<string[]>;
 }

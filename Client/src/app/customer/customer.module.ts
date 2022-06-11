@@ -4,6 +4,7 @@ import { MenuComponent } from './menu/menu.component';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { AppMaterialModule } from '../app-material.module';
 import { CartComponent } from './cart/cart.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -15,7 +16,8 @@ import { CartComponent } from './cart/cart.component';
   imports: [
     CommonModule, 
     CustomerRoutingModule,
-    AppMaterialModule
+    AppMaterialModule,
+    ReactiveFormsModule,
   ]
 })
 export class CustomerModule { }

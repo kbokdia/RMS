@@ -1,38 +1,64 @@
 <div class="sub-header">
     <h3> {{ title }}</h3>
 </div>
-<div>
-    <mat-accordion>
-        <mat-expansion-panel class="card-bg" [expanded]="alwaysExpanded" (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-                <mat-panel-title class="expansion-title">
-                    STARTERS
-                </mat-panel-title>
-            </mat-expansion-panel-header>
+<div *ngIf="formArray">
 
-            <ng-container>
-                <mat-grid-list cols="4">
-                    <mat-grid-tile class="item" colspan="3" rowspan="1">
-                        <div class="full-width">
-                            <h3 class="item-title">Pani puri</h3>
-                            <span class="item-price">$ 100.0</span> <br>
-                            <span class="item-description">Description</span>
-                        </div>
+    <mat-accordion *ngFor="let formGroup of formArray.controls;" [formGroup]="formGroup">
+        <ng-container>
+            <mat-expansion-panel class="card-bg">
+                <!-- [expanded]="alwaysExpanded" (opened)="panelOpenState = true" (closed)="panelOpenState = false"> -->
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="expansion-title">
+                        {{formGroup.value.category | uppercase}}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
 
-                    </mat-grid-tile>
-                    <mat-grid-tile colspan="1" rowspan="1">
-                        <div>
-                            <button class="item-button" (click)="removeQuantity()"> - </button>
-                            <span class="item-quantity"> {{quantity}} </span>
-                            <button class="item-button" (click)="addQuantity()"> + </button>
-                        </div>
+                <ng-container *ngFor="let itemGroup of formGroup.controls.items.controls" formGroupName="items"
+                    [formGroup]="itemGroup">
+                    <mat-grid-list cols="5">
+                        <mat-grid-tile class="item" colspan="3">
+                            <div class="full-width">
+                                <h3 class="item-title">{{itemGroup.value.name}}</h3>
+                                <span class="item-price">{{itemGroup.value.price | currency: 'INR'}}</span> <br>
+                                <span class="item-description">{{itemGroup.value.description}}</span>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile colspan="2">
+                            <div>
+                                <button class="item-button" (click)="patchQuantity(itemGroup, -1)"> - </button>
+                                <span class="item-quantity"> {{itemGroup.value.quantity}} </span>
+                                <button class="item-button" (click)="patchQuantity(itemGroup, 1)"> + </button>
+                            </div>
 
-                    </mat-grid-tile>
-                </mat-grid-list>
-                <mat-divider></mat-divider>
-            </ng-container>
-        </mat-expansion-panel>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                    <mat-divider></mat-divider>
+                </ng-container>
+            </mat-expansion-panel>
+        </ng-container>
+        <div style="margin: .5rem;"></div>
     </mat-accordion>
 
+</div>
+<div class="price-snackbar" [class.inactive]="selectedItemTotalCost <= 0">
+    <mat-grid-list cols="5" rowHeight="2rem">
+        <mat-grid-tile class="item" colspan="3">
+            
+            <!-- <div class="full-width">{{selectedItems}} item{{selectedItems > 1 ? 's' : ''}} </div> -->
+            <div class="full-width">
+                <span>{{selectedItems}} item{{selectedItems > 1 ? 's' : ''}}</span> 
+                <span> | </span>
+                <span>{{selectedItemTotalCost | currency:'INR'}}</span>
+            </div> 
+            
+        </mat-grid-tile>
+        <mat-grid-tile class="item" colspan="2">
+            <div class="full-width" style="text-align: right;">
+                View Cart
+            </div>
+            <!-- <div class="full-width" style="text-align: right;">{{selectedItemTotalCost | currency:'INR'}}</div> -->
+
+
+        </mat-grid-tile>
+    </mat-grid-list>
 </div>
