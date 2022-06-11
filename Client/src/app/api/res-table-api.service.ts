@@ -14,7 +14,7 @@ export class ResTableApiService {
         return this.httpClient.get<ITable>(`${this.method}/${id}`);
     }
 
-    updateAvailability(value: ITable) {
+    updateOrderStatus(value: ITable) {
         return this.httpClient.put(`${this.method}/${value.id}/${value.status}`, value)
     }
 }

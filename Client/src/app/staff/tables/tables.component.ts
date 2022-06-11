@@ -10,10 +10,9 @@ import { ITable, ResTableApiService, TableStatusEnum } from 'src/app/api/res-tab
 })
 export class TablesComponent implements OnInit {
   formArray: FormArray<FormGroup<TablesFormModel>>;
-
-  tables$ = this.tablesApi.getAll();
-  readonly TableStatusValues = Object.values(TableStatusEnum) as number[];
   readonly TableStatus = TableStatusEnum;
+  readonly TableStatusKeys = Object.values(TableStatusEnum)
+    .filter(value => typeof value === 'number' && value > 0) as number[];
 
   constructor(private formBuilder: FormBuilder, private tablesApi: ResTableApiService) {
   }
@@ -28,11 +27,7 @@ export class TablesComponent implements OnInit {
       .pipe(
         filter(value => !!value.status),
         map(value => value as ITable))
-      .subscribe(value => this.save(value)));
-  }
-
-  save(value: ITable) {
-    this.tablesApi.updateAvailability(value).subscribe()
+      .subscribe(value => this.updateOrderStatus(value)));
   }
 
   createFormGroup(table: ITable) {
@@ -43,6 +38,10 @@ export class TablesComponent implements OnInit {
       status: table.status
     });
     return formGroup;
+  }
+
+  private updateOrderStatus(value: ITable) {
+    this.tablesApi.updateOrderStatus(value).subscribe()
   }
 
 }
