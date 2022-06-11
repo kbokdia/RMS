@@ -1,14 +1,21 @@
 .card-bg {
-    border: 1px solid black;
-    border-radius: 10px;
     background-color: #E9EDC9;
+}
+
+.grid-tile {
+    margin: 0 10px;
+}
+
+.grid-list {
     margin-bottom: 5px;
 }
 
-.card-header-bg {
-    background-color: #CCD5AE;
+.full-width {
+    width: 100%;
 }
 
-.align-items-left {
-    align-items: flex-start;
+.sub-header {
+    text-align: center;
+    color: #D4A373;
+    margin: 10px;
 }

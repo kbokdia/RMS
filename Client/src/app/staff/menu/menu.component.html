@@ -1,18 +1,33 @@
-<mat-grid-list class="card-bg" cols="3" rowHeight="50px">
+<div class="sub-header">
+    <h3> MENU </h3>
+</div>
+<mat-grid-list cols="3" rowHeight="30px">
     <mat-grid-tile colspan="2" rowspan="1">
-        <span>Item</span>
+        <span class="full-width">ITEM</span>
     </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1">
-        <span>Availability</span>
+    <mat-grid-tile class="full-width" colspan="1" rowspan="1">
+        <span class="full-width">AVAILABLE</span>
     </mat-grid-tile>
 </mat-grid-list>
 
-<mat-grid-list class="card-bg" cols="3" rowHeight="50px">
-    <mat-grid-tile colspan="2" rowspan="1">
-        <span>Item</span>
+<mat-grid-list class="card-bg grid-list" cols="3" rowHeight="40px">
+    <mat-grid-tile class="grid-tile" colspan="2" rowspan="1">
+        <span class="full-width">Item</span>
     </mat-grid-tile>
     <mat-grid-tile colspan="1" rowspan="1">
-        <mat-slide-toggle>Slide me!</mat-slide-toggle>
+        <div class="full-width">
+            <mat-slide-toggle></mat-slide-toggle>
+        </div>
     </mat-grid-tile>
 </mat-grid-list>
 
+<mat-grid-list class="card-bg grid-list" cols="3" rowHeight="40px">
+    <mat-grid-tile class="grid-tile" colspan="2" rowspan="1">
+        <span class="full-width">Item</span>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1" rowspan="1">
+        <div class="full-width">
+            <mat-slide-toggle></mat-slide-toggle>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>

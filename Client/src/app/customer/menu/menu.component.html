@@ -1,34 +1,38 @@
-<div style="text-align:center">
-    <h3 style="color: #D4A373;"> {{ title }}</h3>
+<div class="sub-header">
+    <h3> {{ title }}</h3>
 </div>
 <div>
     <mat-accordion>
-        <mat-expansion-panel class="card-header-bg" [expanded]= "alwaysExpanded" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel class="card-bg" [expanded]="alwaysExpanded" (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
             <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Starters
+                <mat-panel-title class="expansion-title">
+                    STARTERS
                 </mat-panel-title>
             </mat-expansion-panel-header>
 
+            <ng-container>
+                <mat-grid-list cols="4">
+                    <mat-grid-tile class="item" colspan="3" rowspan="1">
+                        <div class="full-width">
+                            <h3 class="item-title">Pani puri</h3>
+                            <span class="item-price">$ 100.0</span> <br>
+                            <span class="item-description">Description</span>
+                        </div>
 
-            <mat-grid-list cols="4">
-                <mat-grid-tile class="item" colspan="3" rowspan="1">
-                    <div>
-                        <h4>Item</h4>
-                        <span>$ 100.0</span> <br>
-                        <span>Description</span>
-                    </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="1" rowspan="1">
+                        <div>
+                            <button class="item-button" (click)="removeQuantity()"> - </button>
+                            <span class="item-quantity"> {{quantity}} </span>
+                            <button class="item-button" (click)="addQuantity()"> + </button>
+                        </div>
 
-                </mat-grid-tile>
-                <mat-grid-tile colspan="1" rowspan="1">
-                    <div>
-                        <span><button (click)="removeQuantity()"> - </button> {{quantity}} </span><button
-                            (click)="addQuantity()"> + </button>
-                    </div>
-
-                </mat-grid-tile>
-            </mat-grid-list>
+                    </mat-grid-tile>
+                </mat-grid-list>
+                <mat-divider></mat-divider>
+            </ng-container>
         </mat-expansion-panel>
     </mat-accordion>
-  
+
 </div>
