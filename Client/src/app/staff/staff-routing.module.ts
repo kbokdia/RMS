@@ -7,15 +7,15 @@ import { TablesComponent } from './tables/tables.component';
 
 
 const routes: Routes = [
-  { path: 'tables', component: TablesComponent },
-  { path: 'orders', component: OrdersComponent },
-  { path: 'menu', component: MenuComponent },
-  { path: 'home', component:HomeComponent }
-  
+    { path: '', component: HomeComponent },
+    { path: 'tables', component: TablesComponent },
+    { path: 'orders', component: OrdersComponent },
+    { path: 'menu', component: MenuComponent },
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class StaffRoutingModule { }

@@ -9,6 +9,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 const modules = [
@@ -21,6 +22,7 @@ const modules = [
     MatSlideToggleModule,
     MatDividerModule,
     MatListModule,
+    MatProgressSpinnerModule
 ];
 
 @NgModule({
