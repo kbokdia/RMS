@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-menu',
@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class MenuComponent implements OnInit {
   panelOpenState = false;
   quantity:number = 1;
+  @Input() alwaysExpanded:boolean = false;
+  @Input() title:string = 'MENU';
   constructor() { 
   }
 
