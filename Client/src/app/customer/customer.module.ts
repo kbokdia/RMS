@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { MenuComponent } from './menu/menu.component';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { AppMaterialModule } from '../app-material.module';
+import { CartComponent } from './cart/cart.component';
 
 
 
 @NgModule({
   declarations: [
-    MenuComponent
+    MenuComponent,
+    CartComponent
   ],
   imports: [
     CommonModule, 

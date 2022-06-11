@@ -1,12 +1,9 @@
-<div style="text-align: center; padding: 20px;">
-    <img src="../../../assets/logo.png" alt="Logo" width="50" height="50" />
-</div>
 <div style="text-align:center">
-    <h3 style="color: #D4A373;"> MENU</h3>
+    <h3 style="color: #D4A373;"> {{ title }}</h3>
 </div>
 <div>
     <mat-accordion>
-        <mat-expansion-panel class="card-header-bg" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel class="card-header-bg" [expanded]= "alwaysExpanded" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     Starters
