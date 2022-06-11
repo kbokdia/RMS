@@ -28,3 +28,12 @@ export enum OrderStatusEnum {
     ordered = 3,
     completed = 4,
 }
+
+
+export enum TableStatusEnum {
+    undefined = 0,
+    active = 1,
+    inactive = 2,
+    available = 3,
+    occupied = 4,
+}

@@ -12,8 +12,8 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Status</mat-label>
                     <mat-select formControlName="status">
-                        <mat-option *ngFor="let status of TableStatusValues" [value]="status">
-                            {{TableStatus[status]}}
+                        <mat-option *ngFor="let status of TableStatusKeys" [value]="status">
+                            {{ TableStatus[status] }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

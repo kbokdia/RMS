@@ -6,28 +6,20 @@
         <span class="full-width">ITEM</span>
     </mat-grid-tile>
     <mat-grid-tile class="full-width" colspan="1" rowspan="1">
-        <span class="full-width">AVAILABLE</span>
+        <span>AVAILABLE</span>
     </mat-grid-tile>
 </mat-grid-list>
-
-<mat-grid-list class="card-bg grid-list" cols="3" rowHeight="40px">
-    <mat-grid-tile class="grid-tile" colspan="2" rowspan="1">
-        <span class="full-width">Item</span>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1">
-        <div class="full-width">
-            <mat-slide-toggle></mat-slide-toggle>
-        </div>
-    </mat-grid-tile>
-</mat-grid-list>
-
-<mat-grid-list class="card-bg grid-list" cols="3" rowHeight="40px">
-    <mat-grid-tile class="grid-tile" colspan="2" rowspan="1">
-        <span class="full-width">Item</span>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1">
-        <div class="full-width">
-            <mat-slide-toggle></mat-slide-toggle>
-        </div>
-    </mat-grid-tile>
-</mat-grid-list>
+<ng-container *ngFor="let formGroup of formArray.controls" [formGroup]="formGroup">
+    <h3 class="sub-header-list">{{formGroup.value?.category}}</h3>
+    <mat-grid-list *ngFor="let itemFormGroup of formGroup.controls.items.controls" [formGroup]="itemFormGroup"
+        class="card-bg grid-list" cols="3" rowHeight="40px">
+        <mat-grid-tile class="grid-tile" colspan="2" rowspan="1">
+            <span class="full-width">{{itemFormGroup.value?.name}}</span>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1" rowspan="1">
+            <div>
+                <mat-slide-toggle formControlName="status"></mat-slide-toggle>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</ng-container>

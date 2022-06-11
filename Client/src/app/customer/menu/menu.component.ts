@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { debounce, debounceTime, flatMap, lastValueFrom, mergeMap, map, distinctUntilChanged } from 'rxjs';
-import { ICategory, IMenuItem, ResMenuApiService } from 'src/app/api/res-menu-api-service';
+import { ICategory, IMenuItem, MenuItemStatusEnum, ResMenuApiService } from 'src/app/api/res-menu-api-service';
 
 @Component({
   selector: 'app-menu',
@@ -89,7 +89,7 @@ export interface MenuForms {
   description: FormControl<string>;
   imageUrl: FormControl<string>;
   isVeg: FormControl<boolean>;
-  status: FormControl<boolean>;
+  status: FormControl<MenuItemStatusEnum>;
   quantity: FormControl<number>;
   // tags: FormControl<string[]>;
 }
