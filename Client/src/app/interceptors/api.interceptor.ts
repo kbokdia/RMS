@@ -11,7 +11,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const apiUrl = `${this.baseUrl}/${req.url}`;
-        const parsedApiUrl = apiUrl.replace('///', '/').replace('//', '/');
+        const parsedApiUrl = apiUrl;
 
         req = req.clone({
             url: parsedApiUrl,
