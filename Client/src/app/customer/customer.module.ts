@@ -5,16 +5,18 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { AppMaterialModule } from '../app-material.module';
 import { CartComponent } from './cart/cart.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { OrderComponent } from './order/order.component';
 
 
 
 @NgModule({
   declarations: [
     MenuComponent,
-    CartComponent
+    CartComponent,
+    OrderComponent,
   ],
   imports: [
-    CommonModule, 
+    CommonModule,
     CustomerRoutingModule,
     AppMaterialModule,
     ReactiveFormsModule,

@@ -1,4 +1,52 @@
+<div class="sub-header">
+    <h3>CART</h3>
+</div>
+<div *ngIf="formArray">
+    <mat-grid-list cols="10" *ngFor="let item of formArray.controls; let index=index;">
+        <mat-grid-tile class="item" colspan="5">
+            <div class="full-width">
+                <span>{{item.value.name}}</span>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="3">
+            <div class="full-width" style="text-align: center;">
+                <div>
+                    <button class="item-button" (click)="patchQuantity(item, -1)">
+                        <span class="move-top">-</span>
+                    </button>
+                    <span class="item-quantity"> {{item.value.quantity}} </span>
+                    <button class="item-button" (click)="patchQuantity(item, 1)">
+                        <span>+</span>
+                    </button>
+                </div>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2">
+            <div class="full-width" style="text-align: right;">
+                <span class="item-price">{{item.value.cost | currency: 'INR'}}</span>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <div style="padding-bottom: 5rem; padding-top: 1rem ;">
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Special Instructions</mat-label>
+            <textarea matInput placeholder="" rows="5" #inputTextArea></textarea>
+        </mat-form-field>
+    </div>
+</div>
+<div class="price-snackbar" [class.inactive]="totalCost <= 0">
+    <mat-grid-list cols="5" rowHeight="2rem">
+        <mat-grid-tile class="item" colspan="3">
+            <div class="full-width">
+                <span> Total </span>
+                <span>{{totalCost | currency:'INR'}}</span>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile class="item" colspan="2">
 
-<div>
-    <app-menu [title]="'CART'" [alwaysExpanded]="true"></app-menu>
+            <div class="full-width" style="text-align: right;" (click)="placeOrder()">
+                Order
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
 </div>

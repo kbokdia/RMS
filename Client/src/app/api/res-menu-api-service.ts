@@ -24,6 +24,8 @@ export interface IMenuItem {
     description: string;
     imageUrl: string;
     // tags: string[];
+    quantity?: number;
+    cost?: number;
     isVeg: boolean
 }
 

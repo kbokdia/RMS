@@ -1,21 +1,37 @@
 .card-bg {
-    background-color: #E9EDC9;
+  background-color: #e9edc9;
 }
 
 .grid-tile {
-    margin: 0 10px;
+  margin: 0 10px;
 }
 
 .grid-list {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
 }
-
+.full-height {
+  height: 100%;
+}
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+.no-style-list {
+  list-style: none;
+}
+.wrapped-list {
+  display: flex;
+  height: 100px;
+  flex-direction: column;
+  padding-left: 0.5rem;
+  flex-wrap: wrap;
+}
 .sub-header {
-    text-align: center;
-    color: #D4A373;
-    margin: 10px;
+  text-align: center;
+  color: #d4a373;
+  margin: 10px;
 }

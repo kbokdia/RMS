@@ -1,7 +1,7 @@
 <div class="sub-header">
     <h3> {{ title }}</h3>
 </div>
-<div *ngIf="formArray">
+<div *ngIf="formArray" style="padding-bottom: 5rem;">
     <mat-accordion *ngFor="let formGroup of formArray.controls;" [formGroup]="formGroup">
         <ng-container>
             <mat-expansion-panel class="card-bg">
@@ -17,16 +17,23 @@
                     <mat-grid-list cols="5">
                         <mat-grid-tile class="item" colspan="3">
                             <div class="full-width">
-                                <h3 class="item-title">{{itemGroup.value.name}}</h3>
+                                <span [class.item-isNonVeg]="!itemGroup.value.isVeg"
+                                    [class.item-isVeg]="itemGroup.value.isVeg"> </span>
+                                <h3 class="item-title">{{itemGroup.value.name}} </h3>
+                                <br>
                                 <span class="item-price">{{itemGroup.value.price | currency: 'INR'}}</span> <br>
                                 <span class="item-description">{{itemGroup.value.description}}</span>
                             </div>
                         </mat-grid-tile>
                         <mat-grid-tile colspan="2">
                             <div>
-                                <button class="item-button" (click)="patchQuantity(itemGroup, -1)"> - </button>
+                                <button class="item-button" (click)="patchQuantity(itemGroup, -1)">
+                                    <span class="move-top">-</span>
+                                </button>
                                 <span class="item-quantity"> {{itemGroup.value.quantity}} </span>
-                                <button class="item-button" (click)="patchQuantity(itemGroup, 1)"> + </button>
+                                <button class="item-button" (click)="patchQuantity(itemGroup, 1)">
+                                    <span>+</span>
+                                </button>
                             </div>
                         </mat-grid-tile>
                     </mat-grid-list>
@@ -50,7 +57,7 @@
 
         </mat-grid-tile>
         <mat-grid-tile class="item" colspan="2">
-            <div class="full-width" style="text-align: right;">
+            <div class="full-width" style="text-align: right;" (click)="navigateToCart()">
                 View Cart
             </div>
             <!-- <div class="full-width" style="text-align: right;">{{selectedItemTotalCost | currency:'INR'}}</div> -->

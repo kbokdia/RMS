@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Route, Router } from '@angular/router';
 import { debounce, debounceTime, flatMap, lastValueFrom, mergeMap, map, distinctUntilChanged } from 'rxjs';
 import { ICategory, IMenuItem, MenuItemStatusEnum, ResMenuApiService } from 'src/app/api/res-menu-api-service';
+import { LocalStorageService } from 'src/app/tools/local-storage.service';
 
 @Component({
   selector: 'app-menu',
@@ -19,7 +21,12 @@ export class MenuComponent implements OnInit {
   public formArray: FormArray<FormGroup<CategoryForms>>;
   public showPriceSnackBar: boolean = true;
 
-  constructor(private menuSvc: ResMenuApiService, private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private menuSvc: ResMenuApiService,
+    private storageSvc: LocalStorageService,
+    private router: Router,
+  ) {
   }
 
   async ngOnInit() {
@@ -27,13 +34,12 @@ export class MenuComponent implements OnInit {
     this.formArray = this.fb.array(apiResponse?.data?.map(x => MenuComponent.CreateFormForCategories(this.fb, x)));
     this.formArray.valueChanges
       .pipe(
-        debounceTime(500),
+        debounceTime(200),
         map(x => x.flatMap(y => y.items)),
         distinctUntilChanged(),
       )
       .subscribe(x => {
         const selectedItems = x.filter(x => (x?.quantity ?? 0) > 0);
-        console.log(x)
         this.selectedItems = selectedItems.length;
         this.selectedItemTotalCost = selectedItems.reduce((p, c) => p + ((c?.price ?? 0) * (c?.quantity ?? 0)), 0);
       });
@@ -46,7 +52,15 @@ export class MenuComponent implements OnInit {
   patchQuantity(fg: FormGroup<MenuForms>, count: number) {
     const currentQty = fg.value.quantity ?? 0;
     const qty = Math.max(0, currentQty + count);
-    fg.patchValue({ quantity: qty })
+    const cost = qty * (fg.value?.price ?? 0);
+    fg.patchValue({ quantity: qty, cost: cost })
+  }
+
+  navigateToCart() {
+    const formItemValues = this.formArray.getRawValue()?.flatMap(x => x.items);
+    const selectedItems = formItemValues.filter(x => x.quantity > 0);
+    this.storageSvc.setValue('SelectedItems', selectedItems);
+    this.router.navigate(['customer', 'cart']);
   }
 
   static CreateFormForCategories(fb: FormBuilder, categoryData: ICategory) {
@@ -68,7 +82,8 @@ export class MenuComponent implements OnInit {
       imageUrl: menuItemData.imageUrl,
       isVeg: menuItemData.isVeg,
       status: menuItemData.status,
-      quantity: 0,
+      quantity: menuItemData?.quantity ?? 0,
+      cost: menuItemData?.cost ?? 0,
       // tags: menuItemData.tags,
     })
     return formGroup;
@@ -91,5 +106,6 @@ export interface MenuForms {
   isVeg: FormControl<boolean>;
   status: FormControl<MenuItemStatusEnum>;
   quantity: FormControl<number>;
+  cost: FormControl<number>;
   // tags: FormControl<string[]>;
 }
