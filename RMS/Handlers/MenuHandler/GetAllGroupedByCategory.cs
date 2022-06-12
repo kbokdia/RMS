@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using RMS.Models;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace RMS.Handlers.MenuHandler
       {
          public string Name { get; set; } = null;
          public bool? IsVeg { get; set; } = null;
+         public Status? Status { get; set; } = null;
       }
       public class Response
       {
@@ -29,6 +31,7 @@ namespace RMS.Handlers.MenuHandler
          { 
             Name = request.Name,
             IsVeg = request.IsVeg,
+            Status = request.Status,
          };
 
          var menuItems = await mediator.Send(getItemRequest);

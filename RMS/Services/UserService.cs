@@ -13,6 +13,7 @@ namespace RMS.Services
       Task<UserModel> GetById(int id);
       Task<int> GetOrCreate(string mobile);
       Task<int> Create(string mobile);
+      Task<UserModel> GetOrCreateModel(string mobile);
    }
 
    public class UserService : IUserService
@@ -67,6 +68,12 @@ namespace RMS.Services
 
          var result = await mediator.Send(request);
          return result.Data.UserId;
+      }
+
+      public async Task<UserModel> GetOrCreateModel(string mobile)
+      {
+         var userId = await GetOrCreate(mobile);
+         return await GetById(userId);
       }
    }
 }
