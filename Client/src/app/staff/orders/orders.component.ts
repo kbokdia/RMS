@@ -14,19 +14,16 @@ export class OrdersComponent implements OnInit {
   orders$ = this.ordersApi.getByStatus(OrderEnum.Pending);
   completedOrders$ = this.ordersApi.getByStatus(OrderEnum.Completed);
   constructor(private formBuilder: FormBuilder, private ordersApi: ResOrderApiService) { }
-
+  readonly OrderEnum = OrderEnum;
   ngOnInit() {
 
   }
 
-  onComplete(id: number) {
-    this.ordersApi.updateStatus(id, OrderEnum.Completed)
-      .subscribe(() => this.orders$ = this.ordersApi.getByStatus(OrderEnum.Pending));
+  onComplete(id: number, action: OrderEnum) {
+    this.ordersApi.updateStatus(id, action)
+      .subscribe(() => {
+        this.orders$ = this.ordersApi.getByStatus(OrderEnum.Pending);
+        this.completedOrders$ = this.ordersApi.getByStatus(OrderEnum.Completed);
+      });
   }
-
-  onCancel(id: number) {
-    this.ordersApi.updateStatus(id, OrderEnum.Inactive)
-      .subscribe(() => this.orders$ = this.ordersApi.getByStatus(OrderEnum.Pending));
-  }
-
 }

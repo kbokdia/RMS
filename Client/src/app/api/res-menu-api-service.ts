@@ -6,6 +6,10 @@ export class ResMenuApiService {
     readonly method = 'menu';
     constructor(private httpClient: HttpClient) { }
 
+    getEnabledByCategories() {
+        return this.httpClient.get<IResponse<ICategory[]>>(`${this.method}?Status=${MenuItemStatusEnum.active}`);
+    }
+
     getAllByCategories() {
         return this.httpClient.get<IResponse<ICategory[]>>(this.method);
     }
@@ -23,7 +27,7 @@ export interface IMenuItem {
     price: number;
     description: string;
     imageUrl: string;
-    // tags: string[];
+    tags: string;
     quantity?: number;
     cost?: number;
     isVeg: boolean

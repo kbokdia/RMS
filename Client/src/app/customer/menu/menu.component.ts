@@ -32,7 +32,7 @@ export class MenuComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const apiResponse = await lastValueFrom(this.menuSvc.getAllByCategories());
+    const apiResponse = await lastValueFrom(this.menuSvc.getEnabledByCategories());
     const params: any = await firstValueFrom(this.activatedRoute.queryParams);
     this.localStorageSvc.setValue('tableId', params?.tableid)
     this.formArray = this.fb.array(apiResponse?.data?.map(x => MenuComponent.CreateFormForCategories(this.fb, x)));
@@ -86,7 +86,7 @@ export class MenuComponent implements OnInit {
       status: menuItemData.status,
       quantity: menuItemData?.quantity ?? 0,
       cost: menuItemData?.cost ?? 0,
-      // tags: menuItemData.tags,
+      tags: menuItemData.tags,
     })
     return formGroup;
   }
@@ -109,5 +109,5 @@ export interface MenuForms {
   status: FormControl<MenuItemStatusEnum>;
   quantity: FormControl<number>;
   cost: FormControl<number>;
-  // tags: FormControl<string[]>;
+  tags: FormControl<string>;
 }

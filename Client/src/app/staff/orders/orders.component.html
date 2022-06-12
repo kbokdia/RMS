@@ -1,6 +1,7 @@
 <h3 class="sub-header">
     ORDERS
 </h3>
+
 <mat-tab-group mat-align-tabs="center">
     <mat-tab label="PENDING">
         <mat-card class="card-bg" *ngFor="let order of (orders$|async)?.data">
@@ -20,8 +21,9 @@
             </mat-card-content>
             <mat-card-actions class="right-align">
                 <button mat-button class="card-button" style="color:#bc6c25 ;"
-                    (click)="onCancel(order.id)">Cancel</button>
-                <button mat-button class="card-button" (click)="onComplete(order.id)">Complete</button>
+                    (click)="onComplete(order.id, OrderEnum.Inactive)">Cancel</button>
+                <button mat-button class="card-button"
+                    (click)="onComplete(order.id, OrderEnum.Completed)">Complete</button>
             </mat-card-actions>
         </mat-card>
     </mat-tab>

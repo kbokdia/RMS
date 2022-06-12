@@ -15,17 +15,24 @@
                 <ng-container *ngFor="let itemGroup of formGroup.controls.items.controls" formGroupName="items"
                     [formGroup]="itemGroup">
                     <mat-grid-list cols="5">
-                        <mat-grid-tile class="item" colspan="3">
+                        <mat-grid-tile class="item" colspan="3" [rowspan]="itemGroup.value.tags ?'1' :'1'">
                             <div class="full-width">
+
+
                                 <span [class.item-isNonVeg]="!itemGroup.value.isVeg"
                                     [class.item-isVeg]="itemGroup.value.isVeg"> </span>
+
                                 <h3 class="item-title">{{itemGroup.value.name}} </h3>
                                 <br>
-                                <span class="item-price">{{itemGroup.value.price | currency: 'INR'}}</span> <br>
+                                <span class="item-price">{{itemGroup.value.price | currency: 'INR'}}</span>
+
+                                <span *ngIf="itemGroup.value.tags" class="chip">{{itemGroup.value.tags}}</span>
+
+                                <br>
                                 <span class="item-description">{{itemGroup.value.description}}</span>
                             </div>
                         </mat-grid-tile>
-                        <mat-grid-tile colspan="2">
+                        <mat-grid-tile colspan="2" [rowspan]="itemGroup.value.tags ?'1' :'1'">
                             <div>
                                 <button class="item-button" (click)="patchQuantity(itemGroup, -1)">
                                     <span class="move-top">-</span>
