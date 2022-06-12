@@ -1,4 +1,5 @@
 ﻿using RMS.Entities.Scaffold;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -68,8 +69,10 @@ namespace RMS.Models
 
    public class GetOrderModel: OrderModel
    {
+      public DateTime OrderDatetime { get; set; }
       public UserModel User { get; set; }
       public TableModel Table { get; set; }
+      public new GetOrderItemModel[] Items { get; set; }
 
       public static GetOrderModel ToModel(Order entity)
       {
@@ -80,6 +83,9 @@ namespace RMS.Models
 
          if(entity.Table != null)
             model.Table = TableModel.ToModel<TableModel>(entity.Table);
+
+         model.OrderDatetime = entity.OrderDatetime;
+         model.Items = entity.OrderItems.Select(i => GetOrderItemModel.ToModel<GetOrderItemModel>(i)).ToArray();
 
          return model;
       }

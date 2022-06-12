@@ -20,6 +20,7 @@ namespace RMS.Handlers.OrderHandler
       public class GetAllOrderRequest : IRequest<Response>
       {
          public string Name { get; set; } = null;
+         public string Mobile { get; set; } = null;
       }
 
       public class Response
@@ -31,11 +32,18 @@ namespace RMS.Handlers.OrderHandler
 
       public async Task<Response> Handle(GetAllOrderRequest request, CancellationToken cancellationToken)
       {
-         var entities = await ctx.Orders
+         var query = ctx.Orders
             .Include(i => i.OrderItems).ThenInclude(i => i.Menu)
             .Include(i => i.Table)
             .Include(i => i.User)
-            .AsNoTracking()
+            .AsNoTracking();
+
+         if (request.Mobile != null)
+            query = query
+               .Where(i => i.User != null)
+               .Where(i => i.User.Mobile == request.Mobile);
+
+         var entities = await query
             .ToListAsync();
 
          var models = entities.Select(GetOrderModel.ToModel).ToList();
