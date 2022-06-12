@@ -16,10 +16,7 @@
 }
 
 .logout {
-    position: fixed;
-    left: 50%;
-    top: 35%;
-    transform: translate(-50%, -50%);
+    display: flex;
 
     button {
         height: 50px;
@@ -28,9 +25,8 @@
         background: #fff;
         border: 1px solid #D4A373;
         color: #D4A373;
+        margin: auto;
     }
-
-    /* Then maybe something like */
     button:active {
         background: #FAEDCD;
         color: #D4A373;

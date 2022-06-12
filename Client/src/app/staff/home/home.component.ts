@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  title: string = "Staff Portal";
+  title: string = "STAFF PORTAL";
   constructor(private authSvc: AuthService) {
 
   }

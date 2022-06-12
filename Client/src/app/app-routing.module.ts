@@ -5,7 +5,7 @@ import { CustomerModule } from './customer/customer.module';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
   { path: 'staff', loadChildren: () => import('./staff/staff.module').then(m => m.StaffModule), canActivate: [AuthGuard] },
   { path: 'customer', loadChildren: () => import('./customer/customer.module').then(m => m.CustomerModule) },
