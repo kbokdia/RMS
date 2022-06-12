@@ -44,6 +44,7 @@ namespace RMS.Handlers.OrderHandler
                .Where(i => i.User.Mobile == request.Mobile);
 
          var entities = await query
+            .OrderByDescending(o => o.OrderDatetime)
             .ToListAsync();
 
          var models = entities.Select(GetOrderModel.ToModel).ToList();

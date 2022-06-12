@@ -7,8 +7,6 @@
             <div>
                 <mat-card-title>{{formGroup.value.name}}</mat-card-title>
                 <mat-card-subtitle>Capacity: {{formGroup.value.capacity}}</mat-card-subtitle>
-            </div>
-            <div>
                 <mat-form-field appearance="fill">
                     <mat-label>Status</mat-label>
                     <mat-select formControlName="status">
@@ -17,6 +15,9 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+            </div>
+            <div>
+                <img [src]="'https://chart.googleapis.com/chart?chs=128x128&cht=qr&chl=url:https://rms-appservice.azurewebsites.net/customer/menu?tableid='+formGroup.value.id">
             </div>
         </div>
     </mat-card>

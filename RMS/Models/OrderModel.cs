@@ -76,7 +76,7 @@ namespace RMS.Models
 
       public static GetOrderModel ToModel(Order entity)
       {
-         var model = CreateOrderModel.ToModel<GetOrderModel>(entity);
+         var model = OrderModel.ToModel<GetOrderModel>(entity);
 
          if (entity.User != null)
             model.User = UserModel.ToModel<UserModel>(entity.User);
