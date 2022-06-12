@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
@@ -33,7 +34,8 @@ const modules = [
     MatFormFieldModule,
     MatBottomSheetModule,
     MatTabsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDialogModule
 ];
 
 @NgModule({
