@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AuthService } from '../auth.service';
+import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,11 @@ export class LoginComponent implements OnInit {
     password: ['', Validators.required]
   })
 
-  constructor(private formBuilder: FormBuilder, private authSvc: AuthService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private authSvc: AuthService,
+    private _bottomSheet: MatBottomSheet,
+  ) { }
 
   ngOnInit(): void {
   }
@@ -26,6 +32,10 @@ export class LoginComponent implements OnInit {
   ngOnDestroy() {
     // this.authStatusSub.unsubscribe();
   }
-
+  openSignUp(event: Event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    this._bottomSheet.open(SignUpFormComponent, { disableClose: true });
+  }
 
 }

@@ -1,0 +1,17 @@
+.mat-bottom-sheet-container {
+  background-color: #fefae0;
+}
+.bg-color {
+  background-color: #fefae0;
+}
+
+.btn-wrapper {
+  display: grid;
+  place-items: center;
+  grid-template-columns: 1fr 1fr;
+
+  button {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+  }
+}
