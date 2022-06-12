@@ -4,6 +4,6 @@
         <input matInput type="phone" formControlName="phoneNumber" placeholder="E.g., 9988445523">
     </mat-form-field>
     <div class="btn-wrapper">
-        <button (click)="closeForm()" [disabled]="formGroup.valid">Place Order</button>
+        <button (click)="closeForm()" [disabled]="!formGroup.valid">Place Order</button>
     </div>
 </div>

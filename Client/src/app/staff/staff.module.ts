@@ -7,6 +7,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { MenuComponent } from './menu/menu.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
+import { AddTableComponent } from './tables/add-table/add-table.component';
 
 
 
@@ -15,7 +16,8 @@ import { HomeComponent } from './home/home.component';
     TablesComponent,
     OrdersComponent,
     MenuComponent,
-    HomeComponent
+    HomeComponent,
+    AddTableComponent
   ],
   imports: [
     CommonModule,

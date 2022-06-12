@@ -1,0 +1,15 @@
+<div [formGroup]="formGroup">
+    <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Ex. Table 'n'" formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Capacity</mat-label>
+        <input matInput placeholder="Ex. 4" formControlName="capacity">
+    </mat-form-field>
+
+    <div class="btn-wrapper">
+        <button (click)="createTable()" [disabled]="!formGroup.valid">Create</button>
+    </div>
+</div>

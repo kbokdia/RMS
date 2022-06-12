@@ -14,6 +14,10 @@ export class ResTableApiService {
         return this.httpClient.get<ITable>(`${this.method}/${id}`);
     }
 
+    save(data: ITableCreateForm) {
+        return this.httpClient.post(`${this.method}`, data)
+    }
+
     updateOrderStatus(value: ITable) {
         return this.httpClient.put(`${this.method}/${value.id}/${value.status}`, value)
     }
@@ -25,12 +29,16 @@ export interface IResponse<T> {
     data: T
 }
 
+export type ITableCreateForm = {
+    name: string,
+    capacity: number,
+    status: TableStatusEnum
+}
 export interface ITable {
     id: number;
     name: string;
     status: TableStatusEnum;
     capacity: number;
-
 }
 
 export enum TableStatusEnum {

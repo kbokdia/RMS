@@ -77,6 +77,8 @@ export class CartComponent implements OnInit {
     if (!order.mobile) {
       const bottomSheet = this._bottomSheet.open(PlaceOrderComponent, { panelClass: 'bg-color' });
       const contactNo = await lastValueFrom(bottomSheet.afterDismissed());
+      if (!contactNo)
+        return;
       order.mobile = contactNo;
     }
     try {
