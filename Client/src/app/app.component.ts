@@ -7,7 +7,6 @@ import { AuthService } from './auth/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Client';
   constructor(private authSvc: AuthService) {
     this.authSvc.autoAuthUser();
   }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OrdersApiService } from 'src/app/api/orders-api.service';
+import { FormArray, FormBuilder } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
+import { IOrderData, IOrderItem, OrderEnum, ResOrderApiService } from 'src/app/api/res-order-api.service';
 
 @Component({
   selector: 'app-orders',
@@ -7,12 +9,18 @@ import { OrdersApiService } from 'src/app/api/orders-api.service';
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
+  formArray: FormArray;
 
   orders$ = this.ordersApi.getAll();
 
-  constructor(private ordersApi: OrdersApiService) { }
+  constructor(private formBuilder: FormBuilder, private ordersApi: ResOrderApiService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+
+  }
+
+  onComplete(id: number) {
+    this.ordersApi.updateStatus(id, OrderEnum.Completed).subscribe();
   }
 
 }
