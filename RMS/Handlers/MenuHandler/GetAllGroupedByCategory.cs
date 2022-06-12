@@ -1,23 +1,21 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using RMS.Data;
-using RMS.Models;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using RMS.Exceptions;
-using System.Linq;
 
 namespace RMS.Handlers.MenuHandler
 {
    public class GetAllGroupedByCategory : IRequestHandler<GetAllGroupedByCategory.Request, GetAllGroupedByCategory.Response>
    {
       IMediator mediator;
-      public GetAllGroupedByCategory(IMediator mediator) {
+      public GetAllGroupedByCategory(IMediator mediator)
+      {
          this.mediator = mediator;
       }
       public class Request : IRequest<Response>
       {
          public string Name { get; set; } = null;
+         public bool? IsVeg { get; set; } = null;
       }
       public class Response
       {
@@ -27,7 +25,12 @@ namespace RMS.Handlers.MenuHandler
       public async Task<Response> Handle(GetAllGroupedByCategory.Request request, CancellationToken cancellationToken)
       {
 
-         var getItemRequest = new GetAll.GetAllMenuRequest() { Name = request.Name };
+         var getItemRequest = new GetAll.GetAllMenuRequest() 
+         { 
+            Name = request.Name,
+            IsVeg = request.IsVeg,
+         };
+
          var menuItems = await mediator.Send(getItemRequest);
          // var groupedItems = menuItems.Data.GroupBy(x => x.CategoryType, x=> x);
          var groupedItems = menuItems.Data

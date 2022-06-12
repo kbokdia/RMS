@@ -21,6 +21,7 @@ namespace RMS.Handlers.MenuHandler
       public class GetAllMenuRequest : IRequest<Response>
       {
          public string Name { get; set; } = null;
+         public bool? IsVeg { get; set; } = null;
       }
 
       public class Response
@@ -32,7 +33,20 @@ namespace RMS.Handlers.MenuHandler
 
       public async Task<Response> Handle(GetAllMenuRequest request, CancellationToken cancellationToken)
       {
-         var menuEntites = await ctx.Menus.AsNoTracking().ToListAsync();
+         var query = ctx.Menus.AsNoTracking();
+         if(request.Name != null)
+         {
+            var likeText = $"%{request.Name}%";
+            query = query.Where(m => EF.Functions.Like(m.Name, likeText));
+         }
+
+         if (request.IsVeg != null)
+         {
+            var isVeg = (byte?)(request.IsVeg.Value ? 1 : 2);
+            query = query.Where(q => q.IsVeg == null || q.IsVeg == isVeg);
+         }
+
+         var menuEntites = await query.ToListAsync();
          var menuModels = menuEntites.Select(x => MenuModel.ToModel<MenuModel>(x)).ToList();
 
          return new Response
