@@ -21,6 +21,7 @@ namespace RMS.Handlers.OrderHandler
       {
          public string Name { get; set; } = null;
          public string Mobile { get; set; } = null;
+         public OrderStatus? Status { get; set; } = null;
       }
 
       public class Response
@@ -42,6 +43,10 @@ namespace RMS.Handlers.OrderHandler
             query = query
                .Where(i => i.User != null)
                .Where(i => i.User.Mobile == request.Mobile);
+
+         if (request.Status != null)
+            query = query
+               .Where(i => i.Status == (byte)request.Status.Value);
 
          var entities = await query
             .OrderByDescending(o => o.OrderDatetime)
