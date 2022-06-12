@@ -22,6 +22,7 @@ namespace RMS.Handlers.MenuHandler
       {
          public string Name { get; set; } = null;
          public bool? IsVeg { get; set; } = null;
+         public Status? Status { get; set; } = null;
       }
 
       public class Response
@@ -45,6 +46,9 @@ namespace RMS.Handlers.MenuHandler
             var isVeg = (byte?)(request.IsVeg.Value ? 1 : 2);
             query = query.Where(q => q.IsVeg == null || q.IsVeg == isVeg);
          }
+
+         if(request.Status != null)
+            query = query.Where(q => q.Status == (byte)request.Status.Value);
 
          var menuEntites = await query.ToListAsync();
          var menuModels = menuEntites.Select(x => MenuModel.ToModel<MenuModel>(x)).ToList();

@@ -2,10 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using RMS.Data;
 using RMS.Models;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using RMS.Exceptions;
-using System.Linq;
 
 namespace RMS.Handlers.OrderHandler
 {
