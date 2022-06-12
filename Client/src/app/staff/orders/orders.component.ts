@@ -11,8 +11,8 @@ import { IOrderData, IOrderItem, OrderEnum, ResOrderApiService } from 'src/app/a
 export class OrdersComponent implements OnInit {
   formArray: FormArray;
 
-  orders$ = this.ordersApi.getAll();
-
+  orders$ = this.ordersApi.getByStatus(OrderEnum.Pending);
+  completedOrders$ = this.ordersApi.getByStatus(OrderEnum.Completed);
   constructor(private formBuilder: FormBuilder, private ordersApi: ResOrderApiService) { }
 
   ngOnInit() {
@@ -20,7 +20,13 @@ export class OrdersComponent implements OnInit {
   }
 
   onComplete(id: number) {
-    this.ordersApi.updateStatus(id, OrderEnum.Completed).subscribe();
+    this.ordersApi.updateStatus(id, OrderEnum.Completed)
+      .subscribe(() => this.orders$ = this.ordersApi.getByStatus(OrderEnum.Pending));
+  }
+
+  onCancel(id: number) {
+    this.ordersApi.updateStatus(id, OrderEnum.Inactive)
+      .subscribe(() => this.orders$ = this.ordersApi.getByStatus(OrderEnum.Pending));
   }
 
 }

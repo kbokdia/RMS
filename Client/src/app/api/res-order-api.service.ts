@@ -15,6 +15,10 @@ export class ResOrderApiService {
     return this.httpClient.get<IOrderGet>(this.method);
   }
 
+  getByStatus(status: OrderEnum) {
+    return this.httpClient.get<IOrderGet>(`${this.method}?Status=${status}`);
+  }
+
   save(order: IOrder) {
     return this.httpClient.post<IResponse<{ orderId: number }>>(`${this.method}`, order);
   }
@@ -58,6 +62,7 @@ export interface IOrderData {
   orderDatetime: string;
   user: IAuthUser;
   table: ITable;
+  instructions: string;
   items: IOrderItem[]
 }
 

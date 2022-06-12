@@ -1,17 +1,46 @@
 <h3 class="sub-header">
     ORDERS
 </h3>
-<mat-card class="card-bg" *ngFor="let order of (orders$|async)?.data">
-    <mat-card-title>{{order.orderDatetime|date:'h:mm a'}}</mat-card-title>
-    <mat-card-subtitle>{{order.table.name}} - {{order.id}}</mat-card-subtitle>
-    <mat-card-content>
-        <ul class="no-style-list wrapped-list">
-            <li *ngFor="let item of order.items">
-                {{item.menu.name}}
-            </li>
-        </ul>
-    </mat-card-content>
-    <mat-card-actions class="right-align">
-        <button mat-button class="card-button" (click)="onComplete(order.id)">Completed</button>
-    </mat-card-actions>
-</mat-card>
+<mat-tab-group mat-align-tabs="center">
+    <mat-tab label="PENDING">
+        <mat-card class="card-bg" *ngFor="let order of (orders$|async)?.data">
+            <mat-card-title>{{order.orderDatetime|date:'dd MMM, h:mm a'}}</mat-card-title>
+            <mat-card-subtitle>{{order.table.name}} | Order #{{order.id}}</mat-card-subtitle>
+            <mat-card-content>
+                <ul class="no-style-list wrapped-list">
+                    <li *ngFor="let item of order.items">
+                        {{item.menu.name}}
+                    </li>
+                </ul>
+                <br>
+                <span *ngIf="order.instructions">
+                    Special instructions:
+                    <h5>{{order.instructions}}</h5>
+                </span>
+            </mat-card-content>
+            <mat-card-actions class="right-align">
+                <button mat-button class="card-button" style="color:#bc6c25 ;"
+                    (click)="onCancel(order.id)">Cancel</button>
+                <button mat-button class="card-button" (click)="onComplete(order.id)">Complete</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-tab>
+    <mat-tab label="COMPLETED">
+        <mat-card class="card-bg" *ngFor="let order of (completedOrders$|async)?.data">
+            <mat-card-title>{{order.orderDatetime|date:'dd MMM, h:mm a'}}</mat-card-title>
+            <mat-card-subtitle>{{order.table.name}} | Order #{{order.id}}</mat-card-subtitle>
+            <mat-card-content>
+                <ul class="no-style-list wrapped-list">
+                    <li *ngFor="let item of order.items">
+                        {{item.menu.name}}
+                    </li>
+                </ul>
+                <br>
+                <span *ngIf="order.instructions">
+                    Special instructions:
+                    <h5>{{order.instructions}}</h5>
+                </span>
+            </mat-card-content>
+        </mat-card>
+    </mat-tab>
+</mat-tab-group>
