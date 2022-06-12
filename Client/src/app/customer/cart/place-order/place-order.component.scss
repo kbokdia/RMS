@@ -1,0 +1,18 @@
+.mat-bottom-sheet-container {
+  background-color: #fefae0;
+}
+.bg-color {
+  background-color: #fefae0;
+}
+
+.place-order-wrapper {
+  .btn-wrapper {
+    display: grid;
+    place-items: center;
+
+    button {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+  }
+}

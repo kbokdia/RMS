@@ -6,6 +6,7 @@ import { AppMaterialModule } from '../app-material.module';
 import { CartComponent } from './cart/cart.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OrderComponent } from './order/order.component';
+import { PlaceOrderComponent } from './cart/place-order/place-order.component';
 
 
 
@@ -14,6 +15,7 @@ import { OrderComponent } from './order/order.component';
     MenuComponent,
     CartComponent,
     OrderComponent,
+    PlaceOrderComponent,
   ],
   imports: [
     CommonModule,

@@ -12,6 +12,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+
 
 
 const modules = [
@@ -26,7 +28,8 @@ const modules = [
     MatListModule,
     MatProgressSpinnerModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatBottomSheetModule,
 ];
 
 @NgModule({

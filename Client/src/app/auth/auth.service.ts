@@ -13,6 +13,7 @@ export class AuthService {
     private userType: AuthTypeEnum = AuthTypeEnum.undefined;
     private token: string;
     private username: string;
+    private userId: number;
     private authStatusListener = new Subject<boolean>();
 
 
@@ -34,6 +35,9 @@ export class AuthService {
     getUsername() {
         return this.username;
     }
+    getUserId() {
+        return this.userId;
+    }
 
     getUserType() {
         return this.userType;
@@ -46,6 +50,7 @@ export class AuthService {
                 this.token = response.data.token;
                 if (!this.token && !response.data.user) return;
                 this.isAuthenticated = true;
+                this.userId = response.data.user.id;
                 this.username = response.data.user.mobile;
                 this.userType = response.data.user.type;
                 this.authStatusListener.next(true);
@@ -122,7 +127,7 @@ export interface IAuthData {
 }
 
 export interface IAuthUser {
-    id: string;
+    id: number;
     name: string;
     email: string;
     mobile: string;

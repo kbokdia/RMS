@@ -1,11 +1,14 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { Router } from '@angular/router';
 import { debounce, debounceTime, distinctUntilChanged, lastValueFrom } from 'rxjs';
 import { IMenuItem } from 'src/app/api/res-menu-api-service';
 import { IMenuItemRef, OrderEnum, IOrder, ResOrderApiService } from 'src/app/api/res-order-api.service';
+import { AuthService } from 'src/app/auth/auth.service';
 import { LocalStorageService } from 'src/app/tools/local-storage.service';
 import { MenuComponent, MenuForms } from '../menu/menu.component';
+import { PlaceOrderComponent } from './place-order/place-order.component';
 
 @Component({
   selector: 'app-cart',
@@ -19,6 +22,7 @@ export class CartComponent implements OnInit {
 
   @ViewChild("inputTextArea") inputTextArea: ElementRef;
   public totalCost: number = 0;
+  public phoneNumber: string = '';
 
   // public formGroup: FormGroup<IOrder>
   public formArray: FormArray<FormGroup<MenuForms>>
@@ -27,6 +31,8 @@ export class CartComponent implements OnInit {
     private storageSvc: LocalStorageService,
     private orderApiSvc: ResOrderApiService,
     private router: Router,
+    private _bottomSheet: MatBottomSheet,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +41,6 @@ export class CartComponent implements OnInit {
       this.router.navigate(['customer/menu']);
       return;
     }
-    console.log(this.selectedItems)
     this.totalCost = this.selectedItems.reduce((p, c) => p + (c?.cost ?? 0), 0)
     this.formArray = this.fb.array(this.selectedItems.map(item => MenuComponent.CreateFormForMenuItem(this.fb, item)));
     this.formArray.valueChanges
@@ -44,9 +49,8 @@ export class CartComponent implements OnInit {
         distinctUntilChanged()
       )
       .subscribe(x => {
-        console.log(x);
         this.totalCost = x.filter(x => (x.quantity ?? 0) > 0).reduce((p, c) => p + (c?.cost ?? 0), 0)
-      })
+      });
   }
 
   patchQuantity(fg: FormGroup<MenuForms>, count: number) {
@@ -60,14 +64,21 @@ export class CartComponent implements OnInit {
     const menuItemRefs = this.formArray.value
       .filter(x => (x?.quantity ?? 0) > 0)
       .map(x => ({ menuId: x.id, quantity: x.quantity } as IMenuItemRef))
-    const order: IOrder = {
+
+    const tableId = this.storageSvc.getValue('tableId')
+    let order: IOrder = {
       instructions: userInput,
-      mobile: '',
+      mobile: this.authService.getUsername(),
       status: OrderEnum.Pending,
-      tableId: 1,
-      userId: 0,
+      tableId: tableId,
+      userId: this.authService.getUserId(),
       items: menuItemRefs,
     };
+    if (!order.mobile) {
+      const bottomSheet = this._bottomSheet.open(PlaceOrderComponent, { panelClass: 'bg-color' });
+      const contactNo = await lastValueFrom(bottomSheet.afterDismissed());
+      order.mobile = contactNo;
+    }
     try {
       const orderResponse = await lastValueFrom(this.orderApiSvc.save(order));
       const orderId = orderResponse.data?.orderId;
@@ -75,7 +86,7 @@ export class CartComponent implements OnInit {
       this.router.navigate([`customer/order`], { queryParams: { orderId: orderId } })
     }
     catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
 

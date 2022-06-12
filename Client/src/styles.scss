@@ -1,21 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 
-$backgroundColor : #FEFAE0;
+$backgroundColor: #fefae0;
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-size: 16px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
 }
 
 html,
 body {
-    height: 100%;
-    background-color: $backgroundColor;
+  height: 100%;
+  background-color: $backgroundColor;
 }
 
 body {
-    padding: 0 10px;
-    font-family: 'Montserrat', sans-serif;
+  padding: 0 10px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.bg-color{
+  background-color: #fefae0;
 }

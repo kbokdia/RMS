@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Route, Router } from '@angular/router';
-import { debounce, debounceTime, flatMap, lastValueFrom, mergeMap, map, distinctUntilChanged } from 'rxjs';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { debounce, debounceTime, flatMap, lastValueFrom, mergeMap, map, distinctUntilChanged, firstValueFrom } from 'rxjs';
 import { ICategory, IMenuItem, MenuItemStatusEnum, ResMenuApiService } from 'src/app/api/res-menu-api-service';
 import { LocalStorageService } from 'src/app/tools/local-storage.service';
 
@@ -26,11 +26,15 @@ export class MenuComponent implements OnInit {
     private menuSvc: ResMenuApiService,
     private storageSvc: LocalStorageService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private localStorageSvc: LocalStorageService,
   ) {
   }
 
   async ngOnInit() {
     const apiResponse = await lastValueFrom(this.menuSvc.getAllByCategories());
+    const params: any = await firstValueFrom(this.activatedRoute.queryParams);
+    this.localStorageSvc.setValue('tableId', params?.tableid)
     this.formArray = this.fb.array(apiResponse?.data?.map(x => MenuComponent.CreateFormForCategories(this.fb, x)));
     this.formArray.valueChanges
       .pipe(
@@ -46,7 +50,6 @@ export class MenuComponent implements OnInit {
   }
 
   getItemGroup(fg: FormGroup) {
-    console.log(fg.value)
     return fg.get('items');
   }
   patchQuantity(fg: FormGroup<MenuForms>, count: number) {
@@ -65,7 +68,6 @@ export class MenuComponent implements OnInit {
 
   static CreateFormForCategories(fb: FormBuilder, categoryData: ICategory) {
     const formArray: FormArray<FormGroup<MenuForms>> = fb.nonNullable.array(categoryData?.items?.map(x => MenuComponent.CreateFormForMenuItem(fb, x)));
-    console.log("array", formArray)
     const formGroup: FormGroup<CategoryForms> = fb.nonNullable.group({
       category: categoryData.category,
       items: formArray,
